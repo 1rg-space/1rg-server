@@ -18,17 +18,13 @@
     <main>
       <h2>1RG status</h2>
       <ul>
-        <li>About 5 people are in the space.</li>
-        <li>
-          The upstairs meeting room is currently booked, but the others are
-          free.
-        </li>
-        <li>There is one public event today: Side Project Social.</li>
-        <li>There is one private event today: blah blah</li>
+        <!-- <li>About 5 people are in the space.</li> -->
+        <li>{{.MeetingRooms}}</li>
+        <li>{{.PublicEvents}}</li>
+        <li>{{.PrivateEvents}}</li>
       </ul>
-
       <h2>Services</h2>
-      <div class="row">
+      <div class="row btn-list">
         <div class="col"><p>Local Newspaper</p></div>
         <div class="col"><p>Computer Art</p></div>
         <div class="col"><p>Members posts</p></div>
@@ -36,7 +32,10 @@
       </div>
     </main>
     <footer>
-      <p>Footer text here</p>
+      <p>
+        This website was created by Cole. Come contribute on
+        <a href="https://github.com/makew0rld/1rg-server">GitHub</a>.
+      </p>
     </footer>
   </body>
 </html>

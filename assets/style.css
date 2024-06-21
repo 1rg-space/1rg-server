@@ -1,3 +1,7 @@
+.btn-list {
+  text-align: center;
+}
+
 /* ungrid.css */
 @media (min-width: 30em) {
   .row {
