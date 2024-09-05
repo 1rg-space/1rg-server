@@ -3,6 +3,7 @@ package cal
 import (
 	"fmt"
 	"net/http"
+	"regexp"
 	"sync"
 	"time"
 
@@ -11,9 +12,10 @@ import (
 )
 
 var events struct {
-	SecondFloor []gocal.Event
-	GreenRoom   []gocal.Event
-	PurpleRoom  []gocal.Event
+	SecondFloor  []gocal.Event
+	GreenRoom    []gocal.Event
+	PurpleRoom   []gocal.Event
+	PublicEvents []gocal.Event
 }
 var eventsMu sync.RWMutex
 
@@ -83,6 +85,24 @@ func LoadEvents() error {
 	events.PurpleRoom = c.Events
 	resp.Body.Close()
 
+	resp, err = http.Get(config.Config.Cals.PublicEvents)
+	if err != nil {
+		return err
+	}
+	defer resp.Body.Close()
+	if resp.StatusCode != 200 {
+		return fmt.Errorf("status code %d", resp.StatusCode)
+	}
+	c = gocal.NewParser(resp.Body)
+	c.Start = &todayStart
+	c.End = &todayEnd
+	err = c.Parse()
+	if err != nil {
+		return err
+	}
+	events.PublicEvents = c.Events
+	resp.Body.Close()
+
 	return nil
 }
 
@@ -123,4 +143,25 @@ func PurpleRoomBusy() bool {
 		}
 	}
 	return false
+}
+
+type SimpleEvent struct {
+	Name string
+	Link string
+}
+
+var urlRe = regexp.MustCompile(`(?m)https?:\/\/(www\.)?[-a-zA-Z0-9@:%._\+~#=]{1,256}\.[a-zA-Z0-9()]{1,6}\b([-a-zA-Z0-9()@:%_\+.~#?&//=]*)`)
+
+func PublicEventsToday() []SimpleEvent {
+	eventsMu.RLock()
+	defer eventsMu.RUnlock()
+
+	evts := make([]SimpleEvent, 0)
+	for _, ev := range events.PublicEvents {
+		evts = append(evts, SimpleEvent{
+			Name: ev.Summary,
+			Link: urlRe.FindString(ev.Description),
+		})
+	}
+	return evts
 }

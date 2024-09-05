@@ -1,41 +1,61 @@
 <!DOCTYPE html>
 <html lang="en">
-  <head>
-    <meta charset="utf-8" />
-    <title>1RG Server Home</title>
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <link href="/assets/simple.min.css" rel="stylesheet" />
-    <link href="/assets/style.css" rel="stylesheet" />
-  </head>
-  <body>
-    <header>
-      <nav>
-        <a class="current" href="/">Home</a>
-      </nav>
-      <h1>1RG server</h1>
-      <p>Welcome to 1RG, our co-working space.</p>
-    </header>
-    <main>
-      <h2>1RG status</h2>
-      <ul>
-        <!-- <li>About 5 people are in the space.</li> -->
-        <li>{{.MeetingRooms}}</li>
-        <li>{{.PublicEvents}}</li>
-        <li>{{.PrivateEvents}}</li>
-      </ul>
-      <h2>Services</h2>
-      <div class="row btn-list">
-        <div class="col"><p>Local Newspaper</p></div>
-        <div class="col"><p>Computer Art</p></div>
-        <div class="col"><p>Members posts</p></div>
-        <div class="col"><p>Digital Rolodex</p></div>
+
+<head>
+  <meta charset="utf-8" />
+  <title>1RG Server Home</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <link href="/assets/simple.min.css" rel="stylesheet" />
+  <link href="/assets/style.css" rel="stylesheet" />
+</head>
+
+<body>
+  <header>
+    <nav>
+      <a class="current" href="/">Home</a>
+    </nav>
+    <h1>1RG server</h1>
+    <p>Welcome to 1RG, our co-working space.</p>
+  </header>
+  <main>
+    <h2>1RG status</h2>
+    <ul>
+      <li>{{.MeetingRooms}}</li>
+      <li>
+        {{if eq (len .PublicEvents) 0}}
+        No public events today.
+        {{else}}
+        Public events today:
+        {{range $index, $el := .PublicEvents}}{{if $index}},{{end}}
+        <a href="{{$el.Link}}">{{$el.Name}}</a>
+        {{- end}}
+        {{end}}
+      </li>
+      <!-- <li>{{.PrivateEvents}}</li> -->
+      <!-- <li>About 5 people are in the space.</li> -->
+    </ul>
+    <h2>Services</h2>
+    <div class="row btn-list">
+      <div class="col">
+        <p>Local Newspaper</p>
       </div>
-    </main>
-    <footer>
-      <p>
-        This website was created by Cole. Come contribute on
-        <a href="https://github.com/makew0rld/1rg-server">GitHub</a>.
-      </p>
-    </footer>
-  </body>
+      <div class="col">
+        <p>Computer Art</p>
+      </div>
+      <div class="col">
+        <p>Members posts</p>
+      </div>
+      <div class="col">
+        <p>Digital Rolodex</p>
+      </div>
+    </div>
+  </main>
+  <footer>
+    <p>
+      This website was created by Cole. Come contribute on
+      <a href="https://github.com/makew0rld/1rg-server">GitHub</a>.
+    </p>
+  </footer>
+</body>
+
 </html>

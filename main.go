@@ -38,14 +38,14 @@ func main() {
 	http.HandleFunc("GET /", func(w http.ResponseWriter, r *http.Request) {
 		data := struct {
 			MeetingRooms  string
-			PublicEvents  string
+			PublicEvents  []cal.SimpleEvent
 			PrivateEvents string
 		}{}
 
 		sf, gr, pr := cal.SecondFloorBusy(), cal.GreenRoomBusy(), cal.PurpleRoomBusy()
 		// Eight combos: 000 to 111
 		if !sf && !gr && !pr {
-			data.MeetingRooms = "No meeting rooms are booked."
+			data.MeetingRooms = "No meeting rooms are currently booked."
 		} else if !sf && !gr && pr {
 			data.MeetingRooms = "The purple meeting room is booked, but the others are free."
 		} else if !sf && gr && !pr {
@@ -61,6 +61,9 @@ func main() {
 		} else if sf && gr && pr {
 			data.MeetingRooms = "All meeting rooms are booked."
 		}
+
+		data.PrivateEvents = "I'm not sure if there are any private events, try checking Discord."
+		data.PublicEvents = cal.PublicEventsToday()
 
 		renderTemplate(w, "index", data)
 	})

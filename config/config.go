@@ -4,9 +4,10 @@ import "github.com/BurntSushi/toml"
 
 var Config struct {
 	Cals struct {
-		SecondFloor string `toml:"second_floor"`
-		GreenRoom   string `toml:"green_room"`
-		PurpleRoom  string `toml:"purple_room"`
+		SecondFloor  string `toml:"second_floor"`
+		GreenRoom    string `toml:"green_room"`
+		PurpleRoom   string `toml:"purple_room"`
+		PublicEvents string `toml:"public_events"`
 	} `toml:"cals"`
 }
 
