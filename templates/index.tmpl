@@ -1,26 +1,19 @@
 <!DOCTYPE html>
 <html lang="en">
-
 <head>
-  <meta charset="utf-8" />
-  <title>1RG Server Home</title>
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <link href="/assets/simple.min.css" rel="stylesheet" />
-  <link href="/assets/style.css" rel="stylesheet" />
+  {{template "head.tmpl" "1RG Server Home"}}
 </head>
-
 <body>
   <header>
-    <nav>
-      <a class="current" href="/">Home</a>
-    </nav>
-    <h1>1RG server</h1>
-    <p>Welcome to 1RG, our co-working space.</p>
+    {{template "header.tmpl"}}
   </header>
   <main>
-    <h2>1RG status</h2>
+    <h2>Status</h2>
     <ul>
       <li>{{.MeetingRooms}}</li>
+      <ul>
+        <li>Book on <a href="https://discord.com/channels/1125858116957917214/1133486618943180974/1237489752802984028">Discord</a></li>
+      </ul>
       <li>
         {{if eq (len .PublicEvents) 0}}
         No public events today.
@@ -31,7 +24,7 @@
         {{- end}}
         {{end}}
       </li>
-      <!-- <li>{{.PrivateEvents}}</li> -->
+      <li>{{.PrivateEvents}}</li>
       <!-- <li>About 5 people are in the space.</li> -->
     </ul>
     <h2>Services</h2>
@@ -51,11 +44,7 @@
     </div>
   </main>
   <footer>
-    <p>
-      This website was created by Cole. Come contribute on
-      <a href="https://github.com/makew0rld/1rg-server">GitHub</a>.
-    </p>
+    {{template "footer.tmpl"}}
   </footer>
 </body>
-
 </html>

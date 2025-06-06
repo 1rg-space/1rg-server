@@ -9,6 +9,7 @@ var Config struct {
 		PurpleRoom   string `toml:"purple_room"`
 		PublicEvents string `toml:"public_events"`
 	} `toml:"cals"`
+	DBPath string `toml:"db_path"`
 }
 
 func LoadConfig() error {

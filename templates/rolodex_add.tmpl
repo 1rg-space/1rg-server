@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    {{template "head.tmpl" "1RG Server Home"}}
+  </head>
+  <body>
+    <header>{{template "header.tmpl"}}</header>
+    <main>
+      <h2>Add yourself to the rolodex</h2>
+      <p>All fields are optional except for your name.</p>
+      <form method="post">
+        <p>
+          <label for="profilepic">Profile Picture</label>
+          <input type="file" name="profilepic" accept="image/*" />
+        </p>
+        <p>
+          <label for="name">Name</label>
+          <input type="text" name="name" required />
+        </p>
+
+        <p>
+          <label for="pronouns">Pronouns</label>
+          <input type="text" name="pronouns" placeholder="she/her" />
+        </p>
+
+        <p>
+          <label for="email">Email</label>
+          <input type="email" name="email" />
+        </p>
+
+        <p>
+          <label for="bio">Bio</label>
+          <textarea name="bio"></textarea>
+        </p>
+
+        <p>
+          <label for="birthday">Birthday</label>
+          <input type="text" name="birthday" placeholder="MMDD" maxlength="4" />
+        </p>
+
+        <p>
+          <label for="website">Website</label>
+          <input type="text" name="website" />
+        </p>
+
+        <p>
+          <label for="bluesky">Bluesky</label>
+          <input type="text" name="bluesky" placeholder="foo.bsky.social" />
+        </p>
+
+        <p>
+          <label for="goodreads">Goodreads</label>
+          <input
+            type="text"
+            name="goodreads"
+            placeholder="https://www.goodreads.com/user/show/123-name"
+          />
+        </p>
+
+        <p>
+          <label for="fedi">Fedi</label>
+          <input
+            type="text"
+            name="fedi"
+            placeholder="https://cosocial.ca/@foo"
+          />
+        </p>
+
+        <p>
+          <label for="github">GitHub</label>
+          <input type="text" name="github" placeholder="username" />
+        </p>
+
+        <p>
+          <label for="instagram">Instagram</label>
+          <input type="text" name="instagram" placeholder="username" />
+        </p>
+
+        <p>
+          <label for="signal">Signal</label>
+          <input type="text" name="signal" placeholder="username" />
+        </p>
+
+        <p>
+          <label for="phone">Phone</label>
+          <input type="tel" name="phone" placeholder="647-555-1234" />
+        </p>
+
+        <button type="submit">Submit</button>
+      </form>
+    </main>
+    <footer>{{template "footer.tmpl"}}</footer>
+  </body>
+</html>

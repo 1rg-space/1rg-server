@@ -2,26 +2,18 @@ package main
 
 import (
 	"embed"
-	"html/template"
 	"log"
 	"net/http"
 
 	"github.com/makew0rld/1rg-server/cal"
 	"github.com/makew0rld/1rg-server/config"
+	"github.com/makew0rld/1rg-server/database"
+	"github.com/makew0rld/1rg-server/rolodex"
+	"github.com/makew0rld/1rg-server/templates"
 )
 
 //go:embed assets
-//go:embed templates
-var content embed.FS
-
-var templates = template.Must(template.ParseFS(content, "templates/*"))
-
-func renderTemplate(w http.ResponseWriter, tmpl string, data any) {
-	err := templates.ExecuteTemplate(w, tmpl+".html", data)
-	if err != nil {
-		http.Error(w, err.Error(), http.StatusInternalServerError)
-	}
-}
+var assets embed.FS
 
 func main() {
 	log.Print("starting")
@@ -30,12 +22,24 @@ func main() {
 	if err != nil {
 		log.Fatal(err)
 	}
+	db, err := database.Init()
+	if err != nil {
+		log.Fatal(err)
+	}
+	_ = db
 	err = cal.LoadEvents()
 	if err != nil {
 		log.Fatal(err)
 	}
 
+	// Homepage handler
 	http.HandleFunc("GET /", func(w http.ResponseWriter, r *http.Request) {
+		if r.URL.Path != "/" {
+			// This handler was used as the default for an unhandled path
+			http.NotFound(w, r)
+			return
+		}
+
 		data := struct {
 			MeetingRooms  string
 			PublicEvents  []cal.SimpleEvent
@@ -65,9 +69,14 @@ func main() {
 		data.PrivateEvents = "I'm not sure if there are any private events, try checking Discord."
 		data.PublicEvents = cal.PublicEventsToday()
 
-		renderTemplate(w, "index", data)
+		templates.RenderTemplate(w, "index", data)
 	})
-	http.Handle("GET /assets/", http.FileServerFS(content))
+
+	// Asset handler
+	http.Handle("GET /assets/", http.FileServerFS(assets))
+
+	// Module handlers
+	http.HandleFunc("GET /rolodex/add", rolodex.AddGetHandler)
 
 	log.Print("listening on localhost:8080")
 	log.Fatal(http.ListenAndServe(":8080", nil))

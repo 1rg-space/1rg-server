@@ -1,3 +1,5 @@
+db_path = "/path/to/data.db"
+
 [cals]
 # ICS links for calendars
 second_floor = "https://calendar.google.com/calendar/ical/SOMETHING%40group.calendar.google.com/public/basic.ics"
