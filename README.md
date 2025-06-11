@@ -6,4 +6,4 @@ If you're interested in contributing, please see [CONTRIBUTING.md](./CONTRIBUTIN
 
 ## License
 
-This code is licensed under the AGPLv3. See the [LICENSE](./LICENSE) for details.
+This code is available under the MIT license. See the [LICENSE](./LICENSE) file for details.

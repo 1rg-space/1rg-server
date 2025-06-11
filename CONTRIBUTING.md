@@ -2,9 +2,10 @@
 
 All skill levels are welcome to contribute! But if you'd like to dive deeper, the project uses the following technologies:
 
-- The server side code is written in [Go](https://go.dev/) (1.22 and above)
+- The server side code is written in [Go](https://go.dev/)
+- HTML is rendered server-side
 - The frontend code is written using minimal JavaScript
-  - Using [HTMX](https://htmx.org/) for dynamic loading
+  - Using [HTMX](https://htmx.org/) for dynamic loading if necessary
   - Using [jQuery](https://jquery.com/) for any extra dynamic bits
 - [SQLite](https://www.sqlite.org/) is used for any database needs
 
