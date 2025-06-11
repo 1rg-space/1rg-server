@@ -13,10 +13,12 @@ func Init() (*sql.DB, error) {
 		return nil, err
 	}
 	_, err = db.Exec(`
+	PRAGMA journal_mode = WAL;
+	PRAGMA synchronous = NORMAL;
 	PRAGMA foreign_keys = true;
 	PRAGMA busy_timeout = 5000;
 	CREATE TABLE IF NOT EXISTS rolodex (
-		id INTEGER NOT NULL PRIMARY KEY,
+		id INTEGER PRIMARY KEY,
 		name TEXT NOT NULL,
 		pronouns TEXT NOT NULL,
 		email TEXT NOT NULL,
@@ -27,7 +29,9 @@ func Init() (*sql.DB, error) {
 		goodreads TEXT NOT NULL,
 		fedi TEXT NOT NULL,
 		github TEXT NOT NULL,
-		instagram TEXT NOT NULL
+		instagram TEXT NOT NULL,
+		signal TEXT NOT NULL,
+		phone TEXT NOT NULL
 	) STRICT;
 		`)
 	if err != nil {

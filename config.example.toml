@@ -1,4 +1,5 @@
 db_path = "/path/to/data.db"
+asset_storage = "/path/to/dynamic/assets"
 
 [cals]
 # ICS links for calendars
