@@ -1,6 +1,8 @@
+# These two are required
 db_path = "/path/to/data.db"
 asset_storage = "/path/to/dynamic/assets"
 
+# This is optional to make development easier
 [cals]
 # ICS links for calendars
 second_floor = "https://calendar.google.com/calendar/ical/SOMETHING%40group.calendar.google.com/public/basic.ics"

@@ -2,8 +2,10 @@ package main
 
 import (
 	"embed"
+	"fmt"
 	"log"
 	"net/http"
+	"os"
 
 	"github.com/makew0rld/1rg-server/cal"
 	"github.com/makew0rld/1rg-server/config"
@@ -15,23 +17,40 @@ import (
 //go:embed assets
 var assets embed.FS
 
+var calendarsProvided bool
+
 func main() {
+	if len(os.Args) != 2 {
+		fmt.Println("Usage: ./1rg-server path/to/config.toml")
+		return
+	}
+
 	log.Print("starting")
 
-	err := config.LoadConfig()
+	log.Print("loading config")
+	err := config.LoadConfig(os.Args[1])
 	if err != nil {
 		log.Fatal(err)
 	}
 
+	log.Print("initializing database")
 	db, err := database.Init()
 	if err != nil {
 		log.Fatal(err)
 	}
 
-	err = cal.LoadEvents()
-	if err != nil {
-		log.Fatal(err)
+	calendarsProvided = config.CalendarsProvided()
+	if calendarsProvided {
+		log.Print("loading events from calendars")
+		err = cal.LoadEvents()
+		if err != nil {
+			log.Fatal(err)
+		}
+	} else {
+		log.Print("not all calendars were configured, skipping")
 	}
+
+	log.Print("setting up HTTP handlers")
 
 	// Homepage handler
 	http.HandleFunc("GET /", mainPageHandler)
@@ -47,7 +66,7 @@ func main() {
 	http.HandleFunc("GET /rolodex/add", rolodexHandler.AddGetHandler)
 	http.HandleFunc("POST /rolodex/add", rolodexHandler.AddPostHandler)
 
-	log.Print("listening on localhost:8080")
+	log.Print("listening on http://localhost:8080")
 	log.Fatal(http.ListenAndServe(":8080", nil))
 }
 
@@ -64,28 +83,33 @@ func mainPageHandler(w http.ResponseWriter, r *http.Request) {
 		PrivateEvents string
 	}{}
 
-	sf, gr, pr := cal.SecondFloorBusy(), cal.GreenRoomBusy(), cal.PurpleRoomBusy()
-	// Eight combos: 000 to 111
-	if !sf && !gr && !pr {
-		data.MeetingRooms = "No meeting rooms are currently booked."
-	} else if !sf && !gr && pr {
-		data.MeetingRooms = "The purple meeting room is booked, but the others are free."
-	} else if !sf && gr && !pr {
-		data.MeetingRooms = "The green meeting room is booked, but the others are free."
-	} else if !sf && gr && pr {
-		data.MeetingRooms = "Only the second floor meeting room is free."
-	} else if sf && !gr && !pr {
-		data.MeetingRooms = "The second floor meeting room is booked, but the others are free."
-	} else if sf && !gr && pr {
-		data.MeetingRooms = "Only the green meeting room is free."
-	} else if sf && gr && !pr {
-		data.MeetingRooms = "Only the purple meeting room is free."
-	} else if sf && gr && pr {
-		data.MeetingRooms = "All meeting rooms are booked."
-	}
+	if calendarsProvided {
+		sf, gr, pr := cal.SecondFloorBusy(), cal.GreenRoomBusy(), cal.PurpleRoomBusy()
+		// Eight combos: 000 to 111
+		if !sf && !gr && !pr {
+			data.MeetingRooms = "No meeting rooms are currently booked."
+		} else if !sf && !gr && pr {
+			data.MeetingRooms = "The purple meeting room is booked, but the others are free."
+		} else if !sf && gr && !pr {
+			data.MeetingRooms = "The green meeting room is booked, but the others are free."
+		} else if !sf && gr && pr {
+			data.MeetingRooms = "Only the second floor meeting room is free."
+		} else if sf && !gr && !pr {
+			data.MeetingRooms = "The second floor meeting room is booked, but the others are free."
+		} else if sf && !gr && pr {
+			data.MeetingRooms = "Only the green meeting room is free."
+		} else if sf && gr && !pr {
+			data.MeetingRooms = "Only the purple meeting room is free."
+		} else if sf && gr && pr {
+			data.MeetingRooms = "All meeting rooms are booked."
+		}
 
-	data.PrivateEvents = "I'm not sure if there are any private events, try checking Discord."
-	data.PublicEvents = cal.PublicEventsToday()
+		data.PrivateEvents = "I'm not sure if there are any private events, try checking Discord."
+		data.PublicEvents = cal.PublicEventsToday()
+	} else {
+		data.MeetingRooms = "Meeting room status: unknown"
+		data.PrivateEvents = "Private events: unknown"
+	}
 
 	templates.RenderTemplate(w, "index", data)
 

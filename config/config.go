@@ -1,6 +1,10 @@
 package config
 
-import "github.com/BurntSushi/toml"
+import (
+	"fmt"
+
+	"github.com/BurntSushi/toml"
+)
 
 var Config struct {
 	Cals struct {
@@ -13,7 +17,32 @@ var Config struct {
 	AssetStorage string `toml:"asset_storage"`
 }
 
-func LoadConfig() error {
-	_, err := toml.DecodeFile("config.toml", &Config)
-	return err
+func LoadConfig(path string) error {
+	_, err := toml.DecodeFile(path, &Config)
+	if err != nil {
+		return err
+	}
+	if Config.DBPath == "" {
+		return fmt.Errorf("must specify db_path in config")
+	}
+	if Config.AssetStorage == "" {
+		return fmt.Errorf("must specify asset_storage in config")
+	}
+	return nil
+}
+
+func CalendarsProvided() bool {
+	if Config.Cals.SecondFloor == "" {
+		return false
+	}
+	if Config.Cals.GreenRoom == "" {
+		return false
+	}
+	if Config.Cals.PurpleRoom == "" {
+		return false
+	}
+	if Config.Cals.PublicEvents == "" {
+		return false
+	}
+	return true
 }
