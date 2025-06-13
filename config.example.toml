@@ -1,6 +1,6 @@
 # These two are required
-db_path = "/path/to/data.db"
-asset_storage = "/path/to/dynamic/assets"
+db_path = "data.db"
+asset_storage = "user_assets"
 
 # This is optional to make development easier
 [cals]
