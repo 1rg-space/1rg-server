@@ -135,3 +135,34 @@ func (h *Handler) AddPostHandler(w http.ResponseWriter, r *http.Request) {
 	// Redirect user to rolodex page where their profile will show up
 	http.Redirect(w, r, "/rolodex", http.StatusSeeOther)
 }
+
+func (h *Handler) IndexHandler(w http.ResponseWriter, r *http.Request) {
+	rows, err := h.db.Query(`
+		SELECT
+		id, name, last_name, pronouns, email, bio, birthday, website, bluesky,
+		goodreads, fedi, github, instagram, signal, phone
+		FROM rolodex`)
+	if err != nil {
+		http.Error(w, err.Error(), http.StatusInternalServerError)
+		return
+	}
+	defer rows.Close()
+
+	users := make([]*user, 0)
+	for rows.Next() {
+		var u user
+		err = rows.Scan(&u.ID, &u.Name, &u.LastName, &u.Pronouns, &u.Email, &u.Bio,
+			&u.Birthday, &u.Website, &u.Bluesky, &u.Goodreads, &u.Fedi, &u.GitHub, &u.Instagram,
+			&u.Signal, &u.Phone)
+		if err != nil {
+			http.Error(w, err.Error(), http.StatusInternalServerError)
+			return
+		}
+		users = append(users, &u)
+	}
+	if err := rows.Err(); err != nil {
+		http.Error(w, err.Error(), http.StatusInternalServerError)
+	}
+
+	templates.RenderTemplate(w, "rolodex", users)
+}

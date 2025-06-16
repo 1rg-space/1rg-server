@@ -74,6 +74,7 @@ func main() {
 	if err != nil {
 		log.Fatal(err)
 	}
+	http.HandleFunc("GET /rolodex", rolodexHandler.IndexHandler)
 	http.HandleFunc("GET /rolodex/add", rolodexHandler.AddGetHandler)
 	http.HandleFunc("POST /rolodex/add", rolodexHandler.AddPostHandler)
 

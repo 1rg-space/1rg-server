@@ -1,0 +1,17 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    {{template "head.tmpl" "1RG rolodex"}}
+  </head>
+  <body>
+    <header>{{template "header.tmpl"}}</header>
+    <main>
+      <ul>
+        {{range .}}
+        <li>{{.Name}} {{.LastName}}: {{.ID}}</li>
+        {{end}}
+      </ul>
+    </main>
+    <footer>{{template "footer.tmpl"}}</footer>
+  </body>
+</html>
