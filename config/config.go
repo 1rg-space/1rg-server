@@ -6,6 +6,11 @@ import (
 	"github.com/BurntSushi/toml"
 )
 
+// Build-time variable
+var isProdStr = "false"
+
+var IsProduction bool
+
 var Config struct {
 	Cals struct {
 		SecondFloor  string `toml:"second_floor"`
@@ -18,6 +23,10 @@ var Config struct {
 }
 
 func LoadConfig(path string) error {
+	if isProdStr == "true" {
+		IsProduction = true
+	}
+
 	_, err := toml.DecodeFile(path, &Config)
 	if err != nil {
 		return err

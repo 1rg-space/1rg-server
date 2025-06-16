@@ -3,7 +3,8 @@ package database
 import (
 	"database/sql"
 
-	"github.com/makew0rld/1rg-server/config"
+	"1rg-server/config"
+
 	_ "github.com/mattn/go-sqlite3"
 )
 

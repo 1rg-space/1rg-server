@@ -1,4 +1,4 @@
-module github.com/makew0rld/1rg-server
+module 1rg-server
 
 go 1.24.3
 

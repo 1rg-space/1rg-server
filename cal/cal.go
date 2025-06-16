@@ -7,8 +7,9 @@ import (
 	"sync"
 	"time"
 
+	"1rg-server/config"
+
 	"github.com/apognu/gocal"
-	"github.com/makew0rld/1rg-server/config"
 )
 
 var events struct {

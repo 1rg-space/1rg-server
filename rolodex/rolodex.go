@@ -9,8 +9,8 @@ import (
 	"path/filepath"
 	"strconv"
 
-	"github.com/makew0rld/1rg-server/config"
-	"github.com/makew0rld/1rg-server/templates"
+	"1rg-server/config"
+	"1rg-server/templates"
 )
 
 const (

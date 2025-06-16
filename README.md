@@ -12,6 +12,8 @@ If you're interested in contributing, please see [CONTRIBUTING.md](./CONTRIBUTIN
 4. Run the binary `./1rg-server my_config.toml`
 5. Open the website: <http://localhost:8080>
 
+To build for production (assets embedded): `go build -ldflags='-X 1rg-server/config.isProdStr=true'`
+
 ## License
 
 This code is available under the MIT license. See the [LICENSE](./LICENSE) file for details.

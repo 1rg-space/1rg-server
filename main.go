@@ -7,11 +7,11 @@ import (
 	"net/http"
 	"os"
 
-	"github.com/makew0rld/1rg-server/cal"
-	"github.com/makew0rld/1rg-server/config"
-	"github.com/makew0rld/1rg-server/database"
-	"github.com/makew0rld/1rg-server/rolodex"
-	"github.com/makew0rld/1rg-server/templates"
+	"1rg-server/cal"
+	"1rg-server/config"
+	"1rg-server/database"
+	"1rg-server/rolodex"
+	"1rg-server/templates"
 )
 
 //go:embed assets
@@ -31,6 +31,12 @@ func main() {
 	err := config.LoadConfig(os.Args[1])
 	if err != nil {
 		log.Fatal(err)
+	}
+
+	if config.IsProduction {
+		log.Print("mode: production")
+	} else {
+		log.Print("mode: debug")
 	}
 
 	log.Print("initializing database")
@@ -56,7 +62,12 @@ func main() {
 	http.HandleFunc("GET /", mainPageHandler)
 
 	// Asset handler
-	http.Handle("GET /assets/", http.FileServerFS(assets))
+	// Use embedded assets in prod and disk assets when debugging
+	if config.IsProduction {
+		http.Handle("GET /assets/", http.FileServerFS(assets))
+	} else {
+		http.Handle("GET /assets/", http.StripPrefix("/assets/", http.FileServer(http.Dir("assets"))))
+	}
 
 	// Module handlers
 	rolodexHandler, err := rolodex.NewHandler(db)
