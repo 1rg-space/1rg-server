@@ -7,15 +7,21 @@
     <header>{{template "header.tmpl"}}</header>
     <main>
       <h2>Add yourself to the rolodex</h2>
-      <p>All fields are optional except for your name.</p>
+      <p>All fields are optional except for your (first) name.</p>
       <form method="post" enctype="multipart/form-data">
         <p>
           <label for="avatar">Profile Picture</label>
           <input type="file" name="avatar" accept="image/*" />
         </p>
+
         <p>
           <label for="name">Name</label>
           <input type="text" name="name" required />
+        </p>
+
+        <p>
+          <label for="last_name">Last Name</label>
+          <input type="text" name="last_name" />
         </p>
 
         <p>
@@ -35,7 +41,7 @@
 
         <p>
           <label for="birthday">Birthday</label>
-          <input type="text" name="birthday" placeholder="MMDD" maxlength="4" />
+          <input type="date" name="birthday" />
         </p>
 
         <p>
@@ -84,6 +90,13 @@
         <p>
           <label for="phone">Phone</label>
           <input type="tel" name="phone" placeholder="647-555-1234" />
+        </p>
+
+        <p>
+          Create a password to protect your profile. You'll need this password
+          to edit your profile in the future. Save it somewhere, like in a
+          password manager.
+          <input type="password" name="password" required />
         </p>
 
         <button type="submit">Submit</button>

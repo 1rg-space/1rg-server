@@ -20,7 +20,9 @@ func Init() (*sql.DB, error) {
 	PRAGMA busy_timeout = 5000;
 	CREATE TABLE IF NOT EXISTS rolodex (
 		id INTEGER PRIMARY KEY,
+		password_hash BLOB NOT NULL,
 		name TEXT NOT NULL,
+		last_name TEXT NOT NULL,
 		pronouns TEXT NOT NULL,
 		email TEXT NOT NULL,
 		bio TEXT NOT NULL,
@@ -34,6 +36,8 @@ func Init() (*sql.DB, error) {
 		signal TEXT NOT NULL,
 		phone TEXT NOT NULL
 	) STRICT;
+
+	-- Migrations will go here, adding columns to tables etc
 		`)
 	if err != nil {
 		return nil, err
