@@ -12,6 +12,7 @@ import (
 	"1rg-server/config"
 	"1rg-server/templates"
 
+	"github.com/gorilla/csrf"
 	"github.com/matthewhartstonge/argon2"
 )
 
@@ -56,7 +57,9 @@ func NewHandler(db *sql.DB) (*Handler, error) {
 }
 
 func (h *Handler) AddGetHandler(w http.ResponseWriter, r *http.Request) {
-	templates.RenderTemplate(w, "rolodex_add", nil)
+	templates.RenderTemplate(w, "rolodex_add", map[string]interface{}{
+		csrf.TemplateTag: csrf.TemplateField(r),
+	})
 }
 
 // AddPostHandler handle adding a *new* user

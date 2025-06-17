@@ -20,6 +20,7 @@ var Config struct {
 	} `toml:"cals"`
 	DBPath       string `toml:"db_path"`
 	AssetStorage string `toml:"asset_storage"`
+	CSRFKey      string `toml:"csrf_key"`
 }
 
 func LoadConfig(path string) error {
@@ -36,6 +37,9 @@ func LoadConfig(path string) error {
 	}
 	if Config.AssetStorage == "" {
 		return fmt.Errorf("must specify asset_storage in config")
+	}
+	if Config.CSRFKey == "" {
+		return fmt.Errorf("must specify csrf_key in config")
 	}
 	return nil
 }

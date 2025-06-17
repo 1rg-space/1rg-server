@@ -2,6 +2,9 @@
 db_path = "data.db"
 asset_storage = "user_assets"
 
+# 32 bytes of random data
+csrf_key = "CHANGE ME"
+
 # This is optional to make development easier
 [cals]
 # ICS links for calendars

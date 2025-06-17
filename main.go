@@ -12,6 +12,8 @@ import (
 	"1rg-server/database"
 	"1rg-server/rolodex"
 	"1rg-server/templates"
+
+	"github.com/gorilla/csrf"
 )
 
 //go:embed assets
@@ -78,8 +80,25 @@ func main() {
 	http.HandleFunc("GET /rolodex/add", rolodexHandler.AddGetHandler)
 	http.HandleFunc("POST /rolodex/add", rolodexHandler.AddPostHandler)
 
+	var protector func(http.Handler) http.Handler
+	if config.IsProduction {
+		protector = csrf.Protect(
+			[]byte(config.Config.CSRFKey),
+			csrf.SameSite(csrf.SameSiteStrictMode),
+			csrf.Path("/"),
+		)
+	} else {
+		protector = csrf.Protect(
+			[]byte(config.Config.CSRFKey),
+			csrf.Secure(false),
+			csrf.TrustedOrigins([]string{"localhost:8080"}),
+			csrf.SameSite(csrf.SameSiteStrictMode),
+			csrf.Path("/"),
+		)
+	}
+
 	log.Print("listening on http://localhost:8080")
-	log.Fatal(http.ListenAndServe(":8080", nil))
+	log.Fatal(http.ListenAndServe(":8080", protector(http.DefaultServeMux)))
 }
 
 func mainPageHandler(w http.ResponseWriter, r *http.Request) {
