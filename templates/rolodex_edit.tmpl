@@ -39,12 +39,18 @@
             name="pronouns"
             placeholder="she/her"
             value="{{.user.Pronouns}}"
+            pattern=".*\/.*"
           />
         </p>
 
         <p>
           <label for="email">Email</label>
-          <input type="email" name="email" value="{{.user.Email}}" />
+          <input
+            type="email"
+            name="email"
+            value="{{.user.Email}}"
+            pattern=".*@.*\..*"
+          />
         </p>
 
         <p>
@@ -59,7 +65,12 @@
 
         <p>
           <label for="website">Website</label>
-          <input type="text" name="website" value="{{.user.Website}}" />
+          <input
+            type="text"
+            name="website"
+            value="{{.user.Website}}"
+            pattern="https?:\/\/.*"
+          />
         </p>
 
         <p>
@@ -69,6 +80,7 @@
             name="bluesky"
             placeholder="foo.bsky.social"
             value="{{.user.Bluesky}}"
+            pattern="[^@].*"
           />
         </p>
 
@@ -79,6 +91,7 @@
             name="goodreads"
             placeholder="https://www.goodreads.com/user/show/123-name"
             value="{{.user.Goodreads}}"
+            pattern="https:\/\/www\.goodreads\.com\/user\/show\/.+"
           />
         </p>
 
@@ -88,6 +101,7 @@
             type="text"
             name="fedi"
             placeholder="https://cosocial.ca/@foo"
+            pattern="https?:\/\/.*"
             value="{{.user.Fedi}}"
           />
         </p>
@@ -98,6 +112,7 @@
             type="text"
             name="github"
             placeholder="username"
+            pattern="[^@].*"
             value="{{.user.GitHub}}"
           />
         </p>
@@ -108,6 +123,7 @@
             type="text"
             name="instagram"
             placeholder="username"
+            pattern="[^@].*"
             value="{{.user.Instagram}}"
           />
         </p>
@@ -118,6 +134,7 @@
             type="text"
             name="signal"
             placeholder="username"
+            pattern="[^@].*"
             value="{{.user.Signal}}"
           />
         </p>

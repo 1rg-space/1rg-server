@@ -26,12 +26,17 @@
 
         <p>
           <label for="pronouns">Pronouns</label>
-          <input type="text" name="pronouns" placeholder="she/her" />
+          <input
+            type="text"
+            name="pronouns"
+            placeholder="she/her"
+            pattern=".*\/.*"
+          />
         </p>
 
         <p>
           <label for="email">Email</label>
-          <input type="email" name="email" />
+          <input type="email" name="email" pattern=".*@.*\..*" />
         </p>
 
         <p>
@@ -46,12 +51,17 @@
 
         <p>
           <label for="website">Website</label>
-          <input type="text" name="website" />
+          <input type="text" name="website" pattern="https?:\/\/.*" />
         </p>
 
         <p>
           <label for="bluesky">Bluesky</label>
-          <input type="text" name="bluesky" placeholder="foo.bsky.social" />
+          <input
+            type="text"
+            name="bluesky"
+            placeholder="foo.bsky.social"
+            pattern="[^@].*"
+          />
         </p>
 
         <p>
@@ -59,7 +69,8 @@
           <input
             type="text"
             name="goodreads"
-            placeholder="https://www.goodreads.com/user/show/123-name"
+            placeholder="https://www.goodreads.com/user/show/1234567-username"
+            pattern="https:\/\/www\.goodreads\.com\/user\/show\/.+"
           />
         </p>
 
@@ -69,22 +80,38 @@
             type="text"
             name="fedi"
             placeholder="https://cosocial.ca/@foo"
+            pattern="https?:\/\/.*"
           />
         </p>
 
         <p>
           <label for="github">GitHub</label>
-          <input type="text" name="github" placeholder="username" />
+          <input
+            type="text"
+            name="github"
+            placeholder="username"
+            pattern="[^@].*"
+          />
         </p>
 
         <p>
           <label for="instagram">Instagram</label>
-          <input type="text" name="instagram" placeholder="username" />
+          <input
+            type="text"
+            name="instagram"
+            placeholder="username"
+            pattern="[^@].*"
+          />
         </p>
 
         <p>
           <label for="signal">Signal</label>
-          <input type="text" name="signal" placeholder="username" />
+          <input
+            type="text"
+            name="signal"
+            placeholder="username"
+            pattern="[^@].*"
+          />
         </p>
 
         <p>
