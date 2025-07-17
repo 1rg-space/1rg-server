@@ -79,6 +79,8 @@ func main() {
 	http.HandleFunc("GET /rolodex", rolodexHandler.IndexHandler)
 	http.HandleFunc("GET /rolodex/add", rolodexHandler.AddGetHandler)
 	http.HandleFunc("POST /rolodex/add", rolodexHandler.AddPostHandler)
+	http.HandleFunc("GET /rolodex/edit/{id}", rolodexHandler.EditGetHandler)
+	http.HandleFunc("POST /rolodex/edit/{id}", rolodexHandler.EditPostHandler)
 
 	var protector func(http.Handler) http.Handler
 	if config.IsProduction {
@@ -86,6 +88,7 @@ func main() {
 			[]byte(config.Config.CSRFKey),
 			csrf.SameSite(csrf.SameSiteStrictMode),
 			csrf.Path("/"),
+			// TODO: will production be over HTTPS?
 		)
 	} else {
 		protector = csrf.Protect(
