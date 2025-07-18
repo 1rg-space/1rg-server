@@ -13,10 +13,10 @@ import (
 )
 
 var events struct {
-	SecondFloor  []gocal.Event
-	GreenRoom    []gocal.Event
-	PurpleRoom   []gocal.Event
-	PublicEvents []gocal.Event
+	SecondFloor []gocal.Event
+	GreenRoom   []gocal.Event
+	PurpleRoom  []gocal.Event
+	Events      []gocal.Event
 }
 var eventsMu sync.RWMutex
 
@@ -86,7 +86,7 @@ func LoadEvents() error {
 	events.PurpleRoom = c.Events
 	resp.Body.Close()
 
-	resp, err = http.Get(config.Config.Cals.PublicEvents)
+	resp, err = http.Get(config.Config.Cals.Events)
 	if err != nil {
 		return err
 	}
@@ -101,7 +101,7 @@ func LoadEvents() error {
 	if err != nil {
 		return err
 	}
-	events.PublicEvents = c.Events
+	events.Events = c.Events
 	resp.Body.Close()
 
 	return nil
@@ -153,12 +153,12 @@ type SimpleEvent struct {
 
 var urlRe = regexp.MustCompile(`(?m)https?:\/\/(www\.)?[-a-zA-Z0-9@:%._\+~#=]{1,256}\.[a-zA-Z0-9()]{1,6}\b([-a-zA-Z0-9()@:%_\+.~#?&//=]*)`)
 
-func PublicEventsToday() []SimpleEvent {
+func EventsToday() []SimpleEvent {
 	eventsMu.RLock()
 	defer eventsMu.RUnlock()
 
 	evts := make([]SimpleEvent, 0)
-	for _, ev := range events.PublicEvents {
+	for _, ev := range events.Events {
 		evts = append(evts, SimpleEvent{
 			Name: ev.Summary,
 			Link: urlRe.FindString(ev.Description),

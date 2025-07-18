@@ -15,16 +15,15 @@
         <li>Book on <a href="https://discord.com/channels/1125858116957917214/1133486618943180974/1237489752802984028">Discord</a></li>
       </ul>
       <li>
-        {{if eq (len .PublicEvents) 0}}
-        No public events today.
+        {{if eq (len .Events) 0}}
+        No events today.
         {{else}}
-        Public events today:
-        {{range $index, $el := .PublicEvents}}{{if $index}},{{end}}
+        Events today:
+        {{range $index, $el := .Events}}{{if $index}},{{end}}
         <a href="{{$el.Link}}">{{$el.Name}}</a>
         {{- end}}
         {{end}}
       </li>
-      <li>{{.PrivateEvents}}</li>
       <!-- <li>About 5 people are in the space.</li> -->
     </ul>
     <h2>Services</h2>

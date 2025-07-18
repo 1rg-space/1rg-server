@@ -112,9 +112,8 @@ func mainPageHandler(w http.ResponseWriter, r *http.Request) {
 	}
 
 	data := struct {
-		MeetingRooms  string
-		PublicEvents  []cal.SimpleEvent
-		PrivateEvents string
+		MeetingRooms string
+		Events       []cal.SimpleEvent
 	}{}
 
 	if calendarsProvided {
@@ -138,11 +137,9 @@ func mainPageHandler(w http.ResponseWriter, r *http.Request) {
 			data.MeetingRooms = "All meeting rooms are booked."
 		}
 
-		data.PrivateEvents = "I'm not sure if there are any private events, try checking Discord."
-		data.PublicEvents = cal.PublicEventsToday()
+		data.Events = cal.EventsToday()
 	} else {
 		data.MeetingRooms = "Meeting room status: unknown"
-		data.PrivateEvents = "Private events: unknown"
 	}
 
 	templates.RenderTemplate(w, "index", data)
