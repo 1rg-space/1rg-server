@@ -40,7 +40,7 @@ type user struct {
 	Website      string
 	Bluesky      string // "foo.bsky.social"
 	Goodreads    string // "https://www.goodreads.com/user/show/<numbers>-<name>"
-	Fedi         string // "https://cosocial.ca/@foo"
+	Fedi         string // "@foo@cosocial.ca"
 	GitHub       string // "username"
 	Instagram    string // "username"
 	Signal       string // "username"
