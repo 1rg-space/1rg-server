@@ -1,21 +1,33 @@
 <!DOCTYPE html>
 <html>
-  <head>
-    {{template "head.tmpl" "1RG rolodex"}}
-  </head>
-  <body>
-    <header>{{template "header.tmpl"}}</header>
-    <main>
-      <a class="button" href="/rolodex/add">Add yourself</a>
-      <ul>
-        {{range .}}
-        <li>
-          {{.Name}} {{.LastName}}: {{.ID}} |
-          <a href="/rolodex/edit/{{.ID}}">Edit</a>
-        </li>
-        {{end}}
-      </ul>
-    </main>
-    <footer>{{template "footer.tmpl"}}</footer>
-  </body>
+
+<head>
+  {{template "head.tmpl" "1RG Rolodex"}}
+</head>
+
+<body>
+  <div class="main-container">
+    <div>
+      {{template "header.tmpl"}}
+    </div>
+    <div class="content-container">
+      <header class="page-header">
+        <h1>Rolodex</h1>
+        <a class="button" href="/rolodex/add">Add yourself</a>
+      </header>
+      <main>
+        <ul>
+          {{range .}}
+          <li>
+            {{.Name}} {{.LastName}}: {{.ID}} |
+            <a href="/rolodex/edit/{{.ID}}">Edit</a>
+          </li>
+          {{end}}
+        </ul>
+      </main>
+      <footer>{{template "footer.tmpl"}}</footer>
+    </div>
+  </div>
+</body>
+
 </html>

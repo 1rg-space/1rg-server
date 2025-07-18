@@ -1,159 +1,114 @@
 <!DOCTYPE html>
 <html lang="en">
-  <head>
-    {{template "head.tmpl" "1RG rolodex: edit"}}
-  </head>
-  <body>
-    <header>{{template "header.tmpl"}}</header>
-    <main>
-      <h2>Edit your rolodex profile</h2>
-      {{if gt (len .msg) 0}}
-      <p class="notice">{{.msg}}</p>
-      {{end}}
-      <p>All fields are optional except for your (first) name.</p>
-      <form method="post" enctype="multipart/form-data">
-        <p>
-          Enter the password you used when creating your profile:
-          <input type="password" name="password" required />
-        </p>
 
-        <p>
-          <label for="avatar">Change profile picture</label>
-          <input type="file" name="avatar" accept="image/*" />
-        </p>
+<head>
+  {{template "head.tmpl" "1RG rolodex: edit"}}
+</head>
 
-        <p>
-          <label for="name">Name</label>
-          <input type="text" name="name" required value="{{.user.Name}}" />
-        </p>
+<body>
+  <div class="main-container">
+    <div>{{template "header.tmpl"}}</div>
+    <div class="content-container">
+      <header class="page-header">
+        <h1>Rolodex / Edit Profile</h1>
+      </header>
+      <main>
+        <h2>Edit your rolodex profile</h2>
+        {{if gt (len .msg) 0}}
+        <p class="notice">{{.msg}}</p>
+        {{end}}
+        <p>All fields are optional except for your (first) name.</p>
+        <form method="post" enctype="multipart/form-data">
+          <p>
+            Enter the password you used when creating your profile:
+            <input type="password" name="password" required />
+          </p>
 
-        <p>
-          <label for="last_name">Last Name</label>
-          <input type="text" name="last_name" value="{{.user.LastName}}" />
-        </p>
+          <p>
+            <label for="avatar">Change profile picture</label>
+            <input type="file" name="avatar" accept="image/*" />
+          </p>
 
-        <p>
-          <label for="pronouns">Pronouns</label>
-          <input
-            type="text"
-            name="pronouns"
-            placeholder="she/her"
-            value="{{.user.Pronouns}}"
-            pattern=".*\/.*"
-          />
-        </p>
+          <p>
+            <label for="name">Name</label>
+            <input type="text" name="name" required value="{{.user.Name}}" />
+          </p>
 
-        <p>
-          <label for="email">Email</label>
-          <input
-            type="email"
-            name="email"
-            value="{{.user.Email}}"
-            pattern=".*@.*\..*"
-          />
-        </p>
+          <p>
+            <label for="last_name">Last Name</label>
+            <input type="text" name="last_name" value="{{.user.LastName}}" />
+          </p>
 
-        <p>
-          <label for="bio">Bio</label>
-          <textarea name="bio" value="{{.user.Bio}}"></textarea>
-        </p>
+          <p>
+            <label for="pronouns">Pronouns</label>
+            <input type="text" name="pronouns" placeholder="she/her" value="{{.user.Pronouns}}" pattern=".*\/.*" />
+          </p>
 
-        <p>
-          <label for="birthday">Birthday</label>
-          <input type="date" name="birthday" value="{{.user.Birthday}}" />
-        </p>
+          <p>
+            <label for="email">Email</label>
+            <input type="email" name="email" value="{{.user.Email}}" pattern=".*@.*\..*" />
+          </p>
 
-        <p>
-          <label for="website">Website</label>
-          <input
-            type="text"
-            name="website"
-            value="{{.user.Website}}"
-            pattern="https?:\/\/.*"
-          />
-        </p>
+          <p>
+            <label for="bio">Bio</label>
+            <textarea name="bio" value="{{.user.Bio}}"></textarea>
+          </p>
 
-        <p>
-          <label for="bluesky">Bluesky</label>
-          <input
-            type="text"
-            name="bluesky"
-            placeholder="foo.bsky.social"
-            value="{{.user.Bluesky}}"
-            pattern="[^@].*"
-          />
-        </p>
+          <p>
+            <label for="birthday">Birthday</label>
+            <input type="date" name="birthday" value="{{.user.Birthday}}" />
+          </p>
 
-        <p>
-          <label for="goodreads">Goodreads</label>
-          <input
-            type="text"
-            name="goodreads"
-            placeholder="https://www.goodreads.com/user/show/123-name"
-            value="{{.user.Goodreads}}"
-            pattern="https:\/\/www\.goodreads\.com\/user\/show\/.+"
-          />
-        </p>
+          <p>
+            <label for="website">Website</label>
+            <input type="text" name="website" value="{{.user.Website}}" pattern="https?:\/\/.*" />
+          </p>
 
-        <p>
-          <label for="fedi">Fedi</label>
-          <input
-            type="text"
-            name="fedi"
-            placeholder="@foo@cosocial.ca"
-            pattern="@.*@.*\..*"
-            value="{{.user.Fedi}}"
-          />
-        </p>
+          <p>
+            <label for="bluesky">Bluesky</label>
+            <input type="text" name="bluesky" placeholder="foo.bsky.social" value="{{.user.Bluesky}}"
+              pattern="[^@].*" />
+          </p>
 
-        <p>
-          <label for="github">GitHub</label>
-          <input
-            type="text"
-            name="github"
-            placeholder="username"
-            pattern="[^@].*"
-            value="{{.user.GitHub}}"
-          />
-        </p>
+          <p>
+            <label for="goodreads">Goodreads</label>
+            <input type="text" name="goodreads" placeholder="https://www.goodreads.com/user/show/123-name"
+              value="{{.user.Goodreads}}" pattern="https:\/\/www\.goodreads\.com\/user\/show\/.+" />
+          </p>
 
-        <p>
-          <label for="instagram">Instagram</label>
-          <input
-            type="text"
-            name="instagram"
-            placeholder="username"
-            pattern="[^@].*"
-            value="{{.user.Instagram}}"
-          />
-        </p>
+          <p>
+            <label for="fedi">Fedi</label>
+            <input type="text" name="fedi" placeholder="@foo@cosocial.ca" pattern="@.*@.*\..*" value="{{.user.Fedi}}" />
+          </p>
 
-        <p>
-          <label for="signal">Signal</label>
-          <input
-            type="text"
-            name="signal"
-            placeholder="username"
-            pattern="[^@].*"
-            value="{{.user.Signal}}"
-          />
-        </p>
+          <p>
+            <label for="github">GitHub</label>
+            <input type="text" name="github" placeholder="username" pattern="[^@].*" value="{{.user.GitHub}}" />
+          </p>
 
-        <p>
-          <label for="phone">Phone</label>
-          <input
-            type="tel"
-            name="phone"
-            placeholder="647-555-1234"
-            value="{{.user.Phone}}"
-          />
-        </p>
+          <p>
+            <label for="instagram">Instagram</label>
+            <input type="text" name="instagram" placeholder="username" pattern="[^@].*" value="{{.user.Instagram}}" />
+          </p>
 
-        {{ .csrfField }}
+          <p>
+            <label for="signal">Signal</label>
+            <input type="text" name="signal" placeholder="username" pattern="[^@].*" value="{{.user.Signal}}" />
+          </p>
 
-        <button type="submit">Submit</button>
-      </form>
-    </main>
-    <footer>{{template "footer.tmpl"}}</footer>
-  </body>
+          <p>
+            <label for="phone">Phone</label>
+            <input type="tel" name="phone" placeholder="647-555-1234" value="{{.user.Phone}}" />
+          </p>
+
+          {{ .csrfField }}
+
+          <button type="submit">Submit</button>
+        </form>
+      </main>
+      <footer>{{template "footer.tmpl"}}</footer>
+    </div>
+  </div>
+</body>
+
 </html>
