@@ -8,17 +8,40 @@
 
 body {
   margin: 0;
+  min-height: 100vh;
   --color-brand-primary: #7547db;
   --color-brand-secondary: #42dc80;
+}
+
+/* Basic Layout */
+
+.main-container {
+  display: flex;
+  min-height: 100vh;
+}
+
+.content-container {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
 }
 
 /* Navigation */
 
 .nav {
+  width: 10rem;
   background-color: var(--color-brand-primary);
   padding: 1rem;
+  height: 100%;
 
   & img {
     max-width: 6rem;
+  }
+
+  & ul {
+    list-style-type: none;
+    padding: 0;
+    margin: 0;
   }
 }
