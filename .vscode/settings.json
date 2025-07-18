@@ -2,5 +2,8 @@
   "[html]": {
     "editor.defaultFormatter": "vscode.html-language-features"
   },
-  "html.format.enable": true
+  "html.format.enable": true,
+  "files.associations": {
+    "*.tmpl": "html"
+  }
 }
