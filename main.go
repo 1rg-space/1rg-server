@@ -6,6 +6,7 @@ import (
 	"log"
 	"net/http"
 	"os"
+	"time"
 
 	"1rg-server/cal"
 	"1rg-server/config"
@@ -20,6 +21,10 @@ import (
 var assets embed.FS
 
 var calendarsProvided bool
+
+const (
+	calUpdateInterval = 30 * time.Minute
+)
 
 func main() {
 	if len(os.Args) != 2 {
@@ -54,6 +59,16 @@ func main() {
 		if err != nil {
 			log.Fatal(err)
 		}
+		go func() {
+			for {
+				time.Sleep(calUpdateInterval)
+				log.Print("loading events from calendars")
+				err = cal.LoadEvents()
+				if err != nil {
+					log.Printf("cal.LoadEvents: %v", err)
+				}
+			}
+		}()
 	} else {
 		log.Print("not all calendars were configured, skipping")
 	}
