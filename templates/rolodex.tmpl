@@ -18,9 +18,59 @@
       <main>
         <ul>
           {{range .}}
-          <li>
-            {{.Name}} {{.LastName}}: {{.ID}} |
-            <a href="/rolodex/edit/{{.ID}}">Edit</a>
+          <li class="rolodex-card">
+            <div>
+              <div>
+                <img src="#" />
+                <h2>{{.Name}} {{.LastName}}</h2>
+              </div>
+              <ul>
+                {{ if .Website}}
+                <li>
+                  <a href="{{.Website}}" target="_blank" title="Website">
+                    <i class="ri-global-line"></i>
+                  </a>
+                </li>
+                {{end}}
+                {{ if .Bluesky}}
+                <li>
+                  <a href="https://bsky.app/profile/{{.Bluesky}}" target="_blank" title="Bluesky">
+                    <i class="ri-bluesky-fill"></i>
+                  </a>
+                </li>
+                {{end}}
+                {{ if .Fedi}}
+                <li>
+                  <a href="{{.Fedi}}" target="_blank" title="Fediverse">
+                    <i class="ri-mastodon-fill"></i>
+                  </a>
+                </li>
+                {{end}}
+                {{ if .Instagram}}
+                <li>
+                  <a href="https://instagram.com/{{.Instagram}}" target="_blank" title="Instagram">
+                    <i class="ri-instagram-line"></i>
+                  </a>
+                </li>
+                {{end}}
+                {{ if .GitHub}}
+                <li>
+                  <a href="https://github.com/{{.GitHub}}" target="_blank" title="GitHub">
+                    <i class="ri-github-fill"></i>
+                  </a>
+                </li>
+                {{end}}
+                {{ if .Goodreads}}
+                <li>
+                  <a href="{{.Goodreads}}" target="_blank" title="Goodreads">
+                    <i class="ri-book-fill"></i>
+                  </a>
+                </li>
+                {{end}}
+              </ul>
+            </div>
+
+            <a href=" /rolodex/edit/{{.ID}}">Edit</a>
           </li>
           {{end}}
         </ul>
