@@ -5,10 +5,10 @@ import (
 	"errors"
 	"fmt"
 	"io"
-	"log"
 	"net/http"
 	"os"
 	"path/filepath"
+	"regexp"
 	"strconv"
 	"strings"
 
@@ -25,6 +25,18 @@ const (
 )
 
 var argon = argon2.RecommendedDefaults()
+
+var (
+	pronounsPattern  = regexp.MustCompile(`.*\/.*`)
+	emailPattern     = regexp.MustCompile(`.*@.*\..*`)
+	websitePattern   = regexp.MustCompile(`https?:\/\/.*`)
+	blueskyPattern   = regexp.MustCompile(`[^@].*`)
+	goodreadsPattern = regexp.MustCompile(`https:\/\/www\.goodreads\.com\/user\/show\/.+`)
+	fediPattern      = regexp.MustCompile(`@.*@.*\..*`)
+	githubPattern    = regexp.MustCompile(`[^@].*`)
+	instagramPattern = regexp.MustCompile(`[^@].*`)
+	signalPattern    = regexp.MustCompile(`[^@].*`)
+)
 
 // user stores user rolodex data as stored in the DB.
 // Just like in the DB, there are no nulls, only empty strings.
@@ -85,6 +97,51 @@ func (h *Handler) AddPostHandler(w http.ResponseWriter, r *http.Request) {
 	passwordHash, err := argon.HashEncoded([]byte(r.PostFormValue("password")))
 	if err != nil {
 		http.Error(w, err.Error(), http.StatusInternalServerError)
+		return
+	}
+
+	// Validate form inputs using regexes from HTML template
+	// Validate required field
+	if strings.TrimSpace(r.PostFormValue("name")) == "" {
+		http.Error(w, "Name is required", http.StatusBadRequest)
+		return
+	}
+
+	// Validate optional fields if they are provided
+	if pronouns := r.PostFormValue("pronouns"); pronouns != "" && !pronounsPattern.MatchString(pronouns) {
+		http.Error(w, "Invalid pronouns format", http.StatusBadRequest)
+		return
+	}
+	if email := r.PostFormValue("email"); email != "" && !emailPattern.MatchString(email) {
+		http.Error(w, "Invalid email format", http.StatusBadRequest)
+		return
+	}
+	if website := r.PostFormValue("website"); website != "" && !websitePattern.MatchString(website) {
+		http.Error(w, "Invalid website format", http.StatusBadRequest)
+		return
+	}
+	if bluesky := r.PostFormValue("bluesky"); bluesky != "" && !blueskyPattern.MatchString(bluesky) {
+		http.Error(w, "Invalid bluesky format", http.StatusBadRequest)
+		return
+	}
+	if goodreads := r.PostFormValue("goodreads"); goodreads != "" && !goodreadsPattern.MatchString(goodreads) {
+		http.Error(w, "Invalid goodreads format", http.StatusBadRequest)
+		return
+	}
+	if fedi := r.PostFormValue("fedi"); fedi != "" && !fediPattern.MatchString(fedi) {
+		http.Error(w, "Invalid fedi format", http.StatusBadRequest)
+		return
+	}
+	if github := r.PostFormValue("github"); github != "" && !githubPattern.MatchString(github) {
+		http.Error(w, "Invalid github format", http.StatusBadRequest)
+		return
+	}
+	if instagram := r.PostFormValue("instagram"); instagram != "" && !instagramPattern.MatchString(instagram) {
+		http.Error(w, "Invalid instagram format", http.StatusBadRequest)
+		return
+	}
+	if signal := r.PostFormValue("signal"); signal != "" && !signalPattern.MatchString(signal) {
+		http.Error(w, "Invalid signal format", http.StatusBadRequest)
 		return
 	}
 
@@ -258,6 +315,51 @@ func (h *Handler) EditPostHandler(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
+	// Validate form inputs using regexes from HTML template
+	// Validate required field
+	if strings.TrimSpace(r.PostFormValue("name")) == "" {
+		http.Error(w, "Name is required", http.StatusBadRequest)
+		return
+	}
+
+	// Validate optional fields if they are provided
+	if pronouns := r.PostFormValue("pronouns"); pronouns != "" && !pronounsPattern.MatchString(pronouns) {
+		http.Error(w, "Invalid pronouns format", http.StatusBadRequest)
+		return
+	}
+	if email := r.PostFormValue("email"); email != "" && !emailPattern.MatchString(email) {
+		http.Error(w, "Invalid email format", http.StatusBadRequest)
+		return
+	}
+	if website := r.PostFormValue("website"); website != "" && !websitePattern.MatchString(website) {
+		http.Error(w, "Invalid website format", http.StatusBadRequest)
+		return
+	}
+	if bluesky := r.PostFormValue("bluesky"); bluesky != "" && !blueskyPattern.MatchString(bluesky) {
+		http.Error(w, "Invalid bluesky format", http.StatusBadRequest)
+		return
+	}
+	if goodreads := r.PostFormValue("goodreads"); goodreads != "" && !goodreadsPattern.MatchString(goodreads) {
+		http.Error(w, "Invalid goodreads format", http.StatusBadRequest)
+		return
+	}
+	if fedi := r.PostFormValue("fedi"); fedi != "" && !fediPattern.MatchString(fedi) {
+		http.Error(w, "Invalid fedi format", http.StatusBadRequest)
+		return
+	}
+	if github := r.PostFormValue("github"); github != "" && !githubPattern.MatchString(github) {
+		http.Error(w, "Invalid github format", http.StatusBadRequest)
+		return
+	}
+	if instagram := r.PostFormValue("instagram"); instagram != "" && !instagramPattern.MatchString(instagram) {
+		http.Error(w, "Invalid instagram format", http.StatusBadRequest)
+		return
+	}
+	if signal := r.PostFormValue("signal"); signal != "" && !signalPattern.MatchString(signal) {
+		http.Error(w, "Invalid signal format", http.StatusBadRequest)
+		return
+	}
+
 	// Update DB with changed fields
 	fields := make([]string, 0)
 	vals := make([]any, 0)
@@ -272,7 +374,6 @@ func (h *Handler) EditPostHandler(w http.ResponseWriter, r *http.Request) {
 	// Add id
 	vals = append(vals, r.PathValue("id"))
 	query := `UPDATE rolodex SET ` + strings.Join(fields, `, `) + ` WHERE id=?`
-	log.Print(query)
 	_, err = tx.Exec(query, vals...)
 	if err != nil {
 		http.Error(w, err.Error(), http.StatusInternalServerError)
