@@ -1,48 +1,49 @@
 <!DOCTYPE html>
 <html lang="en">
-
 <head>
   {{template "head.tmpl" "1RG Server Home"}}
 </head>
-
 <body>
-  <div class="main-container">
-    <div>
-      {{template "header.tmpl"}}
+  <header>
+    {{template "header.tmpl"}}
+  </header>
+  <main>
+    <h2>Status</h2>
+    <ul>
+      <li>{{.MeetingRooms}}</li>
+      <ul>
+        <li>Book on <a href="https://discord.com/channels/1125858116957917214/1133486618943180974/1237489752802984028">Discord</a></li>
+      </ul>
+      <li>
+        {{if eq (len .Events) 0}}
+        No events today.
+        {{else}}
+        Events today:
+        {{range $index, $el := .Events}}{{if $index}},{{end}}
+        <a href="{{$el.Link}}">{{$el.Name}}</a>
+        {{- end}}
+        {{end}}
+      </li>
+      <!-- <li>About 5 people are in the space.</li> -->
+    </ul>
+    <h2>Services</h2>
+    <div class="row btn-list">
+      <div class="col">
+        <p>Local Newspaper</p>
+      </div>
+      <div class="col">
+        <p>Computer Art</p>
+      </div>
+      <div class="col">
+        <p>Members posts</p>
+      </div>
+      <div class="col">
+        <p><a href="/rolodex">Rolodex</a></p>
+      </div>
     </div>
-    <div class="content-container">
-      <header class="page-header">
-        <h1>1RG Server</h1>
-      </header>
-      <main>
-
-        <p>Welcome to 1RG, our co-working space.</p>
-        <h2>Status</h2>
-        <ul>
-          <li>{{.MeetingRooms}}</li>
-          <ul>
-            <li>Book on <a
-                href="https://discord.com/channels/1125858116957917214/1133486618943180974/1237489752802984028">Discord</a>
-            </li>
-          </ul>
-          <li>
-            {{if eq (len .Events) 0}}
-            No events today.
-            {{else}}
-            Events today:
-            {{range $index, $el := .Events}}{{if $index}},{{end}}
-            <a href="{{$el.Link}}">{{$el.Name}}</a>
-            {{- end}}
-            {{end}}
-          </li>
-          <!-- <li>About 5 people are in the space.</li> -->
-        </ul>
-      </main>
-      <footer>
-        {{template "footer.tmpl"}}
-      </footer>
-    </div>
-  </div>
+  </main>
+  <footer>
+    {{template "footer.tmpl"}}
+  </footer>
 </body>
-
 </html>
