@@ -9,6 +9,7 @@ import (
 	"os"
 	"path/filepath"
 	"regexp"
+	"slices"
 	"strconv"
 	"strings"
 
@@ -228,6 +229,14 @@ func (h *Handler) IndexHandler(w http.ResponseWriter, r *http.Request) {
 	if err := rows.Err(); err != nil {
 		http.Error(w, err.Error(), http.StatusInternalServerError)
 	}
+
+	// Sort alphabetically by name
+	slices.SortFunc(users, func(a *user, b *user) int {
+		return strings.Compare(
+			a.Name+" "+a.LastName,
+			b.Name+" "+b.LastName,
+		)
+	})
 
 	templates.RenderTemplate(w, "rolodex", users)
 }
